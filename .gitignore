@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+api/node_modules
+api/fsjstd-restapi.db
+
 
 # testing
 /coverage
@@ -21,3 +24,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+markup
+mockups
+todo
