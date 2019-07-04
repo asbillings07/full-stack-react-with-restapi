@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
+import Courses from './components/Courses';
+import UserSignIn from './components/UserSignIn';
+import UserSignUp from './components/UserSignUp';
+import WithContext from './Context';
 
 export default class app extends Component {
   constructor() {
@@ -13,29 +16,21 @@ export default class app extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = async () => {
-    this.setState({ loading: true });
-    const res = await axios.get('/api/courses');
-    console.log(res.data);
-    this.setState({ data: res.data, loading: false });
-  };
-
   render() {
+    const UserSignUpWithContext = WithContext(UserSignUp);
+
     return (
       <Router>
         <Header />
 
         <Switch>
-          <Route exact path="/" /> - Courses
+          <Route exact path="/" component={Courses} /> - Courses
           <Route path="/courses/create" /> - CreateCourse
           <Route path="/courses/:id/update" /> - UpdateCourse
           <Route path="/courses/:id" /> - CourseDetail
           <Route path="/signin" /> - UserSignIn
-          <Route path="/signup" /> - UserSignUp
+          <Route path="/signup" component={UserSignUpWithContext} /> -
+          UserSignUp
           <Route path="/signout" /> - UserSignOut
           <Route component={NotFound} />
         </Switch>
