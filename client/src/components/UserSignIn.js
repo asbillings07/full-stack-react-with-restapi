@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 
-export default class CourseDetail extends Component {
+export default class UserSignIn extends Component {
   constructor() {
     super();
-    this.state = {
-      courses: [],
-    };
+    this.state = {};
   }
 
   render() {

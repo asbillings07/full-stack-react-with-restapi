@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from './components/Header';
+import NotFound from './components/NotFound';
 
 export default class app extends Component {
   constructor() {
@@ -10,12 +12,6 @@ export default class app extends Component {
       loading: true,
     };
   }
-
-  asyncHandler = async cb => {
-    try {
-      await cb();
-    } catch {}
-  };
 
   componentDidMount() {
     this.getData();
@@ -29,14 +25,21 @@ export default class app extends Component {
   };
 
   render() {
-    const courses = this.state.data.map(course => {
-      return <p>{course.title}</p>;
-    });
     return (
-      <div>
-        <h1>Courses!</h1>
-        {courses}
-      </div>
+      <Router>
+        <Header />
+
+        <Switch>
+          <Route exact path="/" /> - Courses
+          <Route path="/courses/create" /> - CreateCourse
+          <Route path="/courses/:id/update" /> - UpdateCourse
+          <Route path="/courses/:id" /> - CourseDetail
+          <Route path="/signin" /> - UserSignIn
+          <Route path="/signup" /> - UserSignUp
+          <Route path="/signout" /> - UserSignOut
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
     );
   }
 }
