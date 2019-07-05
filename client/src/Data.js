@@ -1,8 +1,7 @@
-import config from './Config';
+import config from './config';
 
-// helper class with methods
 export default class Data {
-  api(path, method = 'GET', body = null) {
+  api(path, method = 'GET', body = null, requiresAuth = false, creds = null) {
     const url = config.apiBaseUrl + path;
 
     const options = {
@@ -16,11 +15,19 @@ export default class Data {
       options.body = JSON.stringify(body);
     }
 
+    if (requiresAuth) {
+      const endcodedCreds = btoa(`${creds.email}:${creds.password}`);
+      options.headers['Authorization'] = `Basic ${endcodedCreds}`;
+    }
+
     return fetch(url, options);
   }
 
-  async getUser() {
-    const response = await this.api(`/users`, 'GET', null);
+  async getUser(email, password) {
+    const response = await this.api(`/users`, 'GET', null, true, {
+      email,
+      password,
+    });
     if (response.status === 200) {
       return response.json().then(data => data);
     } else if (response.status === 401) {

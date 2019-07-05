@@ -1,18 +1,18 @@
-import React, { component } from 'react';
+import React, { Component } from 'react';
 import Form from './Form';
 import { Link } from 'react-router-dom';
 
-export default class UserSignUp extends component {
+export default class UserSignUp extends Component {
   state = {
     firstName: '',
     lastName: '',
-    username: '',
+    emailAddress: '',
     password: '',
     errors: [],
   };
 
   render() {
-    const { firstName, lastName, username, password, errors } = this.state;
+    const { firstName, lastName, emailAddress, password, errors } = this.state;
 
     return (
       <div className="bounds">
@@ -42,12 +42,12 @@ export default class UserSignUp extends component {
                   placeholder="Last Name"
                 />
                 <input
-                  id="username"
-                  name="username"
+                  id="email"
+                  name="emailAddress"
                   type="text"
-                  value={username}
+                  value={emailAddress}
                   onChange={this.change}
-                  placeholder="User Name"
+                  placeholder="Email Address"
                 />
                 <input
                   id="password"
@@ -69,15 +69,12 @@ export default class UserSignUp extends component {
     );
   }
   change = event => {
-    const fname = event.target.firstName;
-    const lname = event.target.lastName;
-    const fvalue = event.target.fvalue;
-    const lvalue = event.target.lvalue;
+    const name = event.target.name;
+    const value = event.target.value;
 
     this.setState(() => {
       return {
-        [fname]: fvalue,
-        [lname]: lvalue,
+        [name]: value,
       };
     });
   };
@@ -85,17 +82,33 @@ export default class UserSignUp extends component {
   submit = () => {
     const { context } = this.props;
 
-    const { firstName, lastName, username, password } = this.state;
+    const { firstName, lastName, emailAddress, password } = this.state;
 
     const user = {
       firstName,
       lastName,
-      username,
+      emailAddress,
       password,
     };
 
-    context.data.createUser(user);
+    context.data
+      .createUser(user)
+      .then(errors => {
+        if (errors.length) {
+          this.setState({ errors });
+        } else {
+          context.actions
+            .signIn(emailAddress, password)
+            .then(() => this.props.history.push('/courses'));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.props.history.push('/error');
+      });
   };
 
-  cancel = () => {};
+  cancel = () => {
+    this.props.history.push('/');
+  };
 }
