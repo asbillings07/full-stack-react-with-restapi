@@ -49,4 +49,20 @@ export default class Data {
       throw new Error();
     }
   }
+
+  async deleteCourse(email, password, id) {
+    const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {
+      email,
+      password,
+    });
+    if (response.stats === 200) {
+      return response.json().then(data => data);
+    } else if (response.status === 401) {
+      return response.json().then(data => {
+        return data.errors;
+      });
+    } else {
+      console.log('Something else went wrong');
+    }
+  }
 }

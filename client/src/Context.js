@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Data from './Data';
+import Cookies from 'js-cookie';
 const Context = React.createContext();
 
 export class Provider extends Component {
@@ -8,13 +9,17 @@ export class Provider extends Component {
     this.data = new Data();
   }
   state = {
-    authedUser: null,
+    authedUser: Cookies.getJSON('authedUser') || null,
+    password: Cookies.get('password'),
   };
 
   render() {
     const { authedUser } = this.state;
+    const { password } = this.state;
     const value = {
       authedUser,
+      password,
+
       data: this.data,
       actions: {
         signIn: this.signIn,
@@ -32,14 +37,19 @@ export class Provider extends Component {
       this.setState(() => {
         return {
           authedUser: user,
+          password,
         };
       });
+      Cookies.set('authedUser', JSON.stringify(user), { expires: 7 });
+      Cookies.set('password', password);
     }
     return user;
   };
 
   signOut = () => {
     this.setState({ authedUser: null });
+    Cookies.remove('authedUser');
+    Cookies.remove('password');
     console.log(`Logout Successful`);
   };
 }

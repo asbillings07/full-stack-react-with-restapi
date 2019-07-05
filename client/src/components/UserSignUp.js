@@ -91,6 +91,8 @@ export default class UserSignUp extends Component {
       password,
     };
 
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+
     context.data
       .createUser(user)
       .then(errors => {
@@ -99,7 +101,7 @@ export default class UserSignUp extends Component {
         } else {
           context.actions
             .signIn(emailAddress, password)
-            .then(() => this.props.history.push('/courses'));
+            .then(() => this.props.history.push(from));
         }
       })
       .catch(err => {

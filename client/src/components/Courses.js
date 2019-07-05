@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AddCourse from './AddCourse';
 import config from '../config';
+import { Link } from 'react-router-dom';
 
 export default class Courses extends Component {
   constructor() {
@@ -17,22 +18,21 @@ export default class Courses extends Component {
 
   getAllCourses = async () => {
     this.setState({ loading: true });
-    const res = await axios.get(`${config.apiBaseUrl}/courses`);
-    console.log(res.data);
-    this.setState({ courses: res.data });
+    const courses = await axios.get(`${config.apiBaseUrl}/courses`);
+    this.setState({ courses: courses.data });
   };
 
   showCourse = () => {
-    return this.state.courses.map((course, index) => (
-      <React.Fragment key={index}>
+    return this.state.courses.map(course => (
+      <React.Fragment key={course.id}>
         <div className="grid-33">
-          <a
+          <Link
             className="course--module course--link"
-            href={`/courses/:${course.id}`}
+            to={`/courses/${course.id}`}
           >
             <h4 className="course--label">Course</h4>
             <h3 className="course--title">{course.title}</h3>
-          </a>
+          </Link>
         </div>
       </React.Fragment>
     ));
