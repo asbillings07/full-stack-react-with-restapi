@@ -41,6 +41,7 @@ export default class CourseDetail extends Component {
               message: 'Course Deleted Successfully',
             });
             this.props.history.push(`/`);
+            alert('Course deleted Successfully');
           } else if (res.status === 401 || res.status === 403) {
             this.setState({
               message: res.error.message,
@@ -103,7 +104,7 @@ export default class CourseDetail extends Component {
               <p>By Author ID: {course.userId} </p>
             </div>
             <div className="course--description">
-              <p />
+              <p>{course.description}</p>
             </div>
           </div>
           <div className="grid-25 grid-right">

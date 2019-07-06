@@ -50,17 +50,43 @@ export default class Data {
     }
   }
 
-  async deleteCourse(email, password, id) {
-    const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {
+  async createCourse(email, password, info) {
+    const response = await this.api(`/courses`, 'POST', info, true, {
       email,
       password,
     });
-    if (response.stats === 200) {
-      return response.json().then(data => data);
-    } else if (response.status === 401) {
-      return response.json().then(data => {
-        return data.errors;
-      });
+    if (response.status === 201) {
+      return response.headers;
+    } else if (response.status === 401 || response.status === 400) {
+      return response
+        .json()
+        .then(data => {
+          return data.errors;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      console.log('Something else went wrong');
+    }
+  }
+
+  async updateCourse(email, password, info, id) {
+    const response = await this.api(`/courses/${id}`, 'POST', info, true, {
+      email,
+      password,
+    });
+    if (response.status === 201) {
+      return response.headers;
+    } else if (response.status === 401 || response.status === 400) {
+      return response
+        .json()
+        .then(data => {
+          return data.errors;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     } else {
       console.log('Something else went wrong');
     }

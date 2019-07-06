@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import CourseForm from './CourseForm';
 
 export default class CreateCourse extends Component {
-  constructor() {
-    super();
-    this.state = {
-      title: '',
-      description: '',
-      estimatedTime: '',
-      materialsNeeded: '',
-      errors: [],
-    };
-  }
+  state = {
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    errors: [],
+  };
 
   render() {
     const { authedUser } = this.props.context;
@@ -112,7 +109,28 @@ export default class CreateCourse extends Component {
     });
   };
 
-  submit = () => {};
+  submit = () => {
+    const { authedUser, data } = this.props.context;
+    const { context } = this.props;
+
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    const info = { title, description, estimatedTime, materialsNeeded };
+
+    data
+      .createCourse(authedUser.emailAddress, context.password, info)
+      .then(errors => {
+        if (errors.length) {
+          this.setState({ errors });
+        } else {
+          alert('Course Created Successfully');
+          this.props.history.push('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.props.history.push('/error');
+      });
+  };
 
   cancel = () => {
     this.props.history.push('/');
