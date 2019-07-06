@@ -18,22 +18,26 @@ const App = () => {
   const HeaderWithContext = withContext(Header);
   const UserSignOutWithContext = withContext(UserSignOut);
   const CourseDetailWithContext = withContext(CourseDetail);
+  const CreateCourseWithContext = withContext(CreateCourse);
+  const UpdateCourseWithContext = withContext(UpdateCourse);
 
   return (
     <Router>
       <HeaderWithContext />
       <Switch>
-        <Route exact path="/" component={Courses} /> - Courses
-        <PrivateRoute path="/courses/create" component={CreateCourse} /> -
-        CreateCourse
-        <PrivateRoute path="/courses/:id/update" component={UpdateCourse} /> -
-        UpdateCourse
-        <Route path="/courses/:id" component={CourseDetailWithContext} /> -
-        CourseDetail
-        <Route path="/signin" component={UserSignInWithContext} /> - UserSignIn
-        <Route path="/signup" component={UserSignUpWithContext} /> - UserSignUp
-        <Route path="/signout" component={UserSignOutWithContext} /> -
-        UserSignOut
+        <Route exact path="/" component={Courses} />
+        <PrivateRoute
+          path="/courses/create"
+          component={CreateCourseWithContext}
+        />
+        <PrivateRoute
+          path="/courses/:id/update"
+          component={UpdateCourseWithContext}
+        />
+        <Route path="/courses/:id" component={CourseDetailWithContext} />
+        <Route path="/signin" component={UserSignInWithContext} />
+        <Route path="/signup" component={UserSignUpWithContext} />
+        <Route path="/signout" component={UserSignOutWithContext} />
         <Route component={NotFound} />
       </Switch>
     </Router>
