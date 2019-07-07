@@ -71,7 +71,7 @@ export default class Data {
     }
   }
   async deleteCourse(email, password, id) {
-    // complete function to delete course
+    //  function to delete course
   }
 
   async updateCourse(email, password, info, id) {
