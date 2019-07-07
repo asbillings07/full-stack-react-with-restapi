@@ -19,6 +19,7 @@ export default class UpdateCourse extends Component {
 
   getData = async () => {
     const { id } = this.props.match.params;
+    const { authedUser } = this.props.context;
     const data = await axios
       .get(`${config.apiBaseUrl}/courses/${id}`)
       .catch(err => {
@@ -33,6 +34,10 @@ export default class UpdateCourse extends Component {
         materialsNeeded: course.materialsNeeded,
         userId: course.userId,
       });
+    }
+    if (authedUser.id === this.state.userId) {
+    } else {
+      this.props.history.push('/forbidden');
     }
   };
 

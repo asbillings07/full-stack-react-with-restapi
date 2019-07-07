@@ -10,15 +10,14 @@ const Forbidden = () => {
           <Button href="/">Home</Button>
         </Padding>
         <Text>
-          You can't update courses that you don't own. Create your own course or
-          navigate to a course you own and try again.
+          Uh oh! You can't access this page. Hit the home button to go back.
         </Text>
         <iframe
-          src="https://giphy.com/embed/l41ofhO7rXV9WFECQ"
-          title="forbidden"
+          src="https://giphy.com/embed/wxYgRoM7xDHP2"
           width="480"
-          height="385"
+          height="273"
           frameBorder="0"
+          title="lost"
           className="giphy-embed"
           allowFullScreen
         />

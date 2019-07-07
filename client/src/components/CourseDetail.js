@@ -80,14 +80,14 @@ export default class CourseDetail extends Component {
             <div className="grid-100">
               <span>
                 {/* The authenticated user's ID matches that of the user who owns the course. */}
-                {authedUser ? (
+                {authedUser && authedUser.id === course.userId ? (
                   <Link className="button" to={`/courses/${course.id}/update`}>
                     Update Course
                   </Link>
                 ) : (
                   ''
                 )}
-                {authedUser ? (
+                {authedUser && authedUser.id === course.userId ? (
                   <button
                     className="button"
                     onClick={() => this.deleteCourse()}
