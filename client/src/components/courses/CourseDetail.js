@@ -13,7 +13,7 @@ export default class CourseDetail extends Component {
   componentDidMount() {
     this.getCourses();
   }
-
+  // function pulls only the requested course from REST API
   getCourses = async () => {
     const { id } = this.props.match.params;
     const course = await axios
@@ -34,47 +34,35 @@ export default class CourseDetail extends Component {
     if (deleteIt) {
       this.deleteCourse();
     } else {
-      console.log('Whew! that was close!');
     }
   };
-
+  // deletes course from REST API via delete method
   deleteCourse = () => {
     const { id } = this.props.match.params;
     const { authedUser } = this.props.context;
     const { context } = this.props;
-    const { userId } = this.state.course;
 
-    if (userId === authedUser.id) {
-      axios
-        .delete(`${config.apiBaseUrl}/courses/${id}`, {
-          auth: {
-            username: authedUser.emailAddress,
-            password: context.password,
-          },
-        })
-        .then(res => {
-          if (res.status === 204) {
-            this.setState({
-              course: '',
-              message: 'Course Deleted Successfully',
-            });
-            this.props.history.push(`/`);
-            alert('Course deleted Successfully');
-          } else if (res.status === 401 || res.status === 403) {
-            this.setState({
-              message: res.error.message,
-            });
-          }
-        });
-    } else {
-      this.setState(prevState => {
-        return {
-          ...prevState,
-          message:
-            'You can not delete courses that you do not own, choose another course and try again.',
-        };
+    axios
+      .delete(`${config.apiBaseUrl}/courses/${id}`, {
+        auth: {
+          username: authedUser.emailAddress,
+          password: context.password,
+        },
+      })
+      .then(res => {
+        if (res.status === 204) {
+          this.setState({
+            course: '',
+            message: 'Course Deleted Successfully',
+          });
+          this.props.history.push(`/`);
+          alert('Course deleted Successfully');
+        } else if (res.status === 401 || res.status === 403) {
+          this.setState({
+            message: res.error.message,
+          });
+        }
       });
-    }
   };
 
   render() {

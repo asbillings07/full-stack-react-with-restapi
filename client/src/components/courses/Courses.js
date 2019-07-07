@@ -12,7 +12,7 @@ export default class Courses extends Component {
   componentDidMount() {
     this.getAllCourses();
   }
-
+  // function pulls all courses from REST API
   getAllCourses = async () => {
     this.setState({ loading: true });
     const courses = await axios
@@ -25,7 +25,7 @@ export default class Courses extends Component {
       this.setState({ courses: courses.data });
     }
   };
-
+  // maps through all of the courses and displays them on the "/" page
   showCourse = () => {
     return this.state.courses.map(course => (
       <React.Fragment key={course.id}>

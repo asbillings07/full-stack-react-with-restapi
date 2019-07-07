@@ -23,6 +23,7 @@ export default class UpdateCourse extends Component {
     const data = await axios
       .get(`${config.apiBaseUrl}/courses/${id}`)
       .catch(err => {
+        console.log(err);
         this.props.history.push('/notfound');
       });
     if (data) {
@@ -129,7 +130,7 @@ export default class UpdateCourse extends Component {
       </div>
     );
   }
-
+  // on change set the name in the element to the value of the input
   change = event => {
     const name = event.target.name;
     const value = event.target.value;
