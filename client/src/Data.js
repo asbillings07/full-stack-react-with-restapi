@@ -70,6 +70,9 @@ export default class Data {
       console.log('Something else went wrong');
     }
   }
+  async deleteCourse(email, password, id) {
+    // complete function to delete course
+  }
 
   async updateCourse(email, password, info, id) {
     const response = await this.api(`/courses/${id}`, 'PUT', info, true, {
