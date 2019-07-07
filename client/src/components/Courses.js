@@ -5,12 +5,9 @@ import config from '../config';
 import { Link } from 'react-router-dom';
 
 export default class Courses extends Component {
-  constructor() {
-    super();
-    this.state = {
-      courses: [],
-    };
-  }
+  state = {
+    courses: [],
+  };
 
   componentDidMount() {
     this.getAllCourses();
@@ -18,8 +15,15 @@ export default class Courses extends Component {
 
   getAllCourses = async () => {
     this.setState({ loading: true });
-    const courses = await axios.get(`${config.apiBaseUrl}/courses`);
-    this.setState({ courses: courses.data });
+    const courses = await axios
+      .get(`${config.apiBaseUrl}/courses`)
+      .catch(err => {
+        console.log(err.status);
+        this.props.history.push('/error');
+      });
+    if (courses) {
+      this.setState({ courses: courses.data });
+    }
   };
 
   showCourse = () => {
@@ -39,9 +43,6 @@ export default class Courses extends Component {
   };
 
   render() {
-    // const { context } = this.props;
-    // const authUser = context.authedUser;
-
     return (
       <React.Fragment>
         {this.showCourse()}

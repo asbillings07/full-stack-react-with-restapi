@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import config from '../config';
 
 export default class CourseDetail extends Component {
@@ -70,13 +71,15 @@ export default class CourseDetail extends Component {
   render() {
     const { course } = this.state;
     const { authedUser } = this.props.context;
-
+    const pMarkdown = `${course.description}`;
+    const liMarkdown = `${course.materialsNeeded}`;
     return (
       <div>
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid-100">
               <span>
+                {/* The authenticated user's ID matches that of the user who owns the course. */}
                 {authedUser ? (
                   <Link className="button" to={`/courses/${course.id}/update`}>
                     Update Course
@@ -110,7 +113,7 @@ export default class CourseDetail extends Component {
               <p>By Author ID: {course.userId} </p>
             </div>
             <div className="course--description">
-              <p>{course.description}</p>
+              <ReactMarkdown source={pMarkdown} />
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -123,7 +126,7 @@ export default class CourseDetail extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    <li>{course.materialsNeeded}</li>
+                    <ReactMarkdown source={liMarkdown} />
                   </ul>
                 </li>
               </ul>

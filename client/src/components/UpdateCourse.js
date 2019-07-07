@@ -24,14 +24,16 @@ export default class UpdateCourse extends Component {
       .catch(err => {
         this.props.history.push('/notfound');
       });
-    const course = data.data[0];
-    this.setState({
-      title: course.title,
-      description: course.description,
-      estimatedTime: course.estimatedTime,
-      materialsNeeded: course.materialsNeeded,
-      userId: course.userId,
-    });
+    if (data) {
+      const course = data.data[0];
+      this.setState({
+        title: course.title,
+        description: course.description,
+        estimatedTime: course.estimatedTime,
+        materialsNeeded: course.materialsNeeded,
+        userId: course.userId,
+      });
+    }
   };
 
   render() {
@@ -156,6 +158,10 @@ export default class UpdateCourse extends Component {
             alert('Course Updated Successfully');
             this.props.history.push(`/courses/${id}`);
           }
+        })
+        .catch(err => {
+          console.log(err);
+          this.props.history.push('/error');
         });
     } else {
       this.props.history.push('/forbidden');
