@@ -5,7 +5,7 @@ const Forbidden = () => {
   return (
     <Container>
       <div className="bounds">
-        <h1>Forbidden</h1>
+        <Heading>Forbidden</Heading>
         <Padding>
           <Button href="/">Home</Button>
         </Padding>
@@ -52,5 +52,7 @@ const Text = styled.p`
   color: red;
   font-size: 25px;
 `;
-
+const Heading = styled.h1`
+  color: red;
+`;
 export default Forbidden;

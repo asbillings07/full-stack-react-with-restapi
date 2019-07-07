@@ -207,7 +207,7 @@ body {
 
 /* line 13, ../sass/global.sass */
 .header {
-  background: #57496e;
+  background: #0069c0;
   padding: 20px 0;
   margin-bottom: 30px;
 }
@@ -245,7 +245,7 @@ body {
 }
 /* line 37, ../sass/global.sass */
 .header nav a {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.78);
   margin-left: 20px;
 }
 /* line 40, ../sass/global.sass */
@@ -283,7 +283,7 @@ h1 {
 
 /* line 61, ../sass/global.sass */
 a {
-  color: #7c689b;
+  color: #2196f3;
   cursor: pointer;
   text-decoration: none;
   -webkit-transition: color 0.2s;
@@ -345,7 +345,7 @@ p {
 
 /* line 102, ../sass/global.sass */
 .course--module {
-  background: #7c689b;
+  background: #2196f3;
   border-radius: 8px;
   padding: 30px;
   margin-bottom: 30px;
@@ -353,6 +353,12 @@ p {
   display: block;
   position: relative;
   box-sizing: border-box;
+  box-shadow: 2px 2px #0069c0, 3px 3px #0069c0, 4px 4px #0069c0;
+  -webkit-transform: translateX(-3px);
+  transform: translateX(-3px);
+}
+.course--module:hover {
+  background: #53a7ea;
 }
 /* line 2, ../sass/mixins.sass */
 .course--module:before,
@@ -664,7 +670,7 @@ input:-ms-input-placeholder {
 }
 /* line 500, ../sass/global.sass */
 input:focus {
-  border-color: #7c689b;
+  border-color: #2196f3;
 }
 
 /* line 29, ../sass/mixins.sass */
@@ -686,7 +692,7 @@ input:focus {
 
 /* line 507, ../sass/global.sass */
 .button {
-  background: #7c689b;
+  background: #0069c0;
   color: #fff;
   font-family: 'Work Sans', sans-serif;
   font-size: 18px;
@@ -709,14 +715,15 @@ input:focus {
 }
 /* line 522, ../sass/global.sass */
 .button:not(.button-secondary):hover {
-  background: #63537d;
+  background: #2196f3;
+  box-shadow: inset 0 0 5px 10px #53a7ea;
 }
 
 /* line 525, ../sass/global.sass */
 .button-secondary {
-  color: #7c689b;
+  color: #0069c0;
   background: none;
-  box-shadow: 0 0 0 2px #7c689b inset;
+  box-shadow: 0 0 0 2px #0069c0 inset;
   -webkit-transition: box-shadow 0.2s, color 0.2s;
   -moz-transition: box-shadow 0.2s, color 0.2s;
   -ms-transition: box-shadow 0.2s, color 0.2s;
@@ -725,8 +732,8 @@ input:focus {
 }
 /* line 530, ../sass/global.sass */
 .button-secondary:hover {
-  color: #63537d;
-  box-shadow: 0 0 0 2px #63537d inset;
+  color: #2196f3;
+  box-shadow: 0 0 0 2px #2196f3 inset;
 }
 
 /* adds additional padding to the bottom of an element */

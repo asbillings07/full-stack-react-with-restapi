@@ -5,13 +5,10 @@ import ReactMarkdown from 'react-markdown';
 import config from '../config';
 
 export default class CourseDetail extends Component {
-  constructor() {
-    super();
-    this.state = {
-      course: [],
-      message: '',
-    };
-  }
+  state = {
+    course: [],
+    message: '',
+  };
 
   componentDidMount() {
     this.getCourses();

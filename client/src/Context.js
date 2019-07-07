@@ -4,10 +4,8 @@ import Cookies from 'js-cookie';
 const Context = React.createContext();
 
 export class Provider extends Component {
-  constructor() {
-    super();
-    this.data = new Data();
-  }
+  data = new Data();
+
   state = {
     authedUser: Cookies.getJSON('authedUser') || null,
     password: Cookies.get('password'),
@@ -30,7 +28,7 @@ export class Provider extends Component {
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
-
+  // signs in user and sets auth user and password in cookies.
   signIn = async (email, password) => {
     const user = await this.data.getUser(email, password);
     if (user !== null) {
@@ -45,7 +43,7 @@ export class Provider extends Component {
     }
     return user;
   };
-
+  // signs out user and removes cookies
   signOut = () => {
     this.setState({ authedUser: null });
     Cookies.remove('authedUser');
