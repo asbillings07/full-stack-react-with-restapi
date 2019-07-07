@@ -18,8 +18,15 @@ export default class CourseDetail extends Component {
 
   getCourses = async () => {
     const { id } = this.props.match.params;
-    const course = await axios.get(`${config.apiBaseUrl}/courses/${id}`);
-    this.setState({ course: course.data[0] });
+    const course = await axios
+      .get(`${config.apiBaseUrl}/courses/${id}`)
+      .catch(err => {
+        this.props.history.push('/notfound');
+        console.log(err);
+      });
+    if (course) {
+      this.setState({ course: course.data[0] });
+    }
   };
 
   deleteCourse = () => {
@@ -27,6 +34,7 @@ export default class CourseDetail extends Component {
     const { authedUser } = this.props.context;
     const { context } = this.props;
     if (this.state.course.userId === authedUser.id) {
+      // confirm if user wants to perform delete action
       axios
         .delete(`${config.apiBaseUrl}/courses/${id}`, {
           auth: {
@@ -62,7 +70,6 @@ export default class CourseDetail extends Component {
   render() {
     const { course } = this.state;
     const { authedUser } = this.props.context;
-    const { context } = this.props;
 
     return (
       <div>
@@ -92,7 +99,6 @@ export default class CourseDetail extends Component {
                 Return to List
               </Link>
             </div>
-            {console.log(context)}
           </div>
         </div>
         <div className="bounds course--detail">

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import CourseForm from './CourseForm';
 import axios from 'axios';
 import config from '../config';
-import CourseDetail from './CourseDetail';
 
 export default class UpdateCourse extends Component {
   state = {
@@ -10,7 +9,7 @@ export default class UpdateCourse extends Component {
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
-    course: [],
+    userId: '',
     errors: [],
   };
 
@@ -20,10 +19,18 @@ export default class UpdateCourse extends Component {
 
   getData = async () => {
     const { id } = this.props.match.params;
-    const data = await axios.get(`${config.apiBaseUrl}/courses/${id}`);
+    const data = await axios
+      .get(`${config.apiBaseUrl}/courses/${id}`)
+      .catch(err => {
+        this.props.history.push('/notfound');
+      });
     const course = data.data[0];
     this.setState({
-      course,
+      title: course.title,
+      description: course.description,
+      estimatedTime: course.estimatedTime,
+      materialsNeeded: course.materialsNeeded,
+      userId: course.userId,
     });
   };
 
@@ -33,7 +40,7 @@ export default class UpdateCourse extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      course,
+      userId,
       errors,
     } = this.state;
 
@@ -57,11 +64,11 @@ export default class UpdateCourse extends Component {
                     name="title"
                     type="text"
                     className="input-title course--title--input"
-                    placeholder={course.title}
+                    placeholder=""
                     value={title}
                     onChange={this.change}
                   />
-                  <p>By Author {course.userId}</p>
+                  <p>By Author {userId}</p>
                 </div>
                 <div className="course--description">
                   <div>
@@ -69,7 +76,7 @@ export default class UpdateCourse extends Component {
                       id="description"
                       name="description"
                       className=""
-                      placeholder={course.description}
+                      placeholder=""
                       value={description}
                       onChange={this.change}
                     />
@@ -87,7 +94,7 @@ export default class UpdateCourse extends Component {
                         name="estimatedTime"
                         type="text"
                         className="course--time--input"
-                        placeholder={course.estimatedTime}
+                        placeholder=""
                         value={estimatedTime}
                         onChange={this.change}
                       />
@@ -99,7 +106,7 @@ export default class UpdateCourse extends Component {
                           id="materialsNeeded"
                           name="materialsNeeded"
                           className=""
-                          placeholder={course.materialsNeeded}
+                          placeholder=""
                           value={materialsNeeded}
                           onChange={this.change}
                         />
@@ -130,20 +137,29 @@ export default class UpdateCourse extends Component {
     const { authedUser, data } = this.props.context;
     const { context } = this.props;
 
-    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    const {
+      title,
+      userId,
+      description,
+      estimatedTime,
+      materialsNeeded,
+    } = this.state;
     const info = { title, description, estimatedTime, materialsNeeded };
     const { id } = this.props.match.params;
-
-    data
-      .updateCourse(authedUser.emailAddress, context.password, info, id)
-      .then(errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        } else {
-          alert('Course Updated Successfully');
-          this.props.history.push(`/courses/${id}`);
-        }
-      });
+    if (authedUser.id === userId) {
+      data
+        .updateCourse(authedUser.emailAddress, context.password, info, id)
+        .then(errors => {
+          if (errors.length) {
+            this.setState({ errors });
+          } else {
+            alert('Course Updated Successfully');
+            this.props.history.push(`/courses/${id}`);
+          }
+        });
+    } else {
+      this.props.history.push('/forbidden');
+    }
   };
 
   cancel = () => {

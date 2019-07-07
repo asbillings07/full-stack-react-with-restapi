@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
+import Forbidden from './components/Forbidden';
+import Error from './components/Error';
 import NotFound from './components/NotFound';
 import Courses from './components/Courses';
 import UserSignIn from './components/UserSignIn';
@@ -38,6 +40,8 @@ const App = () => {
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
+        <Route path="/forbidden" component={Forbidden} />
+        <Route path="/error" component={Error} />
         <Route component={NotFound} />
       </Switch>
     </Router>

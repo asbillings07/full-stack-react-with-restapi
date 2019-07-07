@@ -72,12 +72,12 @@ export default class Data {
   }
 
   async updateCourse(email, password, info, id) {
-    const response = await this.api(`/courses/${id}`, 'POST', info, true, {
+    const response = await this.api(`/courses/${id}`, 'PUT', info, true, {
       email,
       password,
     });
-    if (response.status === 201) {
-      return response.headers;
+    if (response.status === 204) {
+      return [];
     } else if (response.status === 401 || response.status === 400) {
       return response
         .json()
@@ -87,8 +87,6 @@ export default class Data {
         .catch(err => {
           console.log(err);
         });
-    } else {
-      console.log('Something else went wrong');
     }
   }
 }
