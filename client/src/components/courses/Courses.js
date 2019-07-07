@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AddCourse from './AddCourse';
-import config from '../config';
+import config from '../../config';
 import { Link } from 'react-router-dom';
 
 export default class Courses extends Component {

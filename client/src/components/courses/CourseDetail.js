@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import config from '../config';
+import config from '../../config';
 
 export default class CourseDetail extends Component {
   state = {

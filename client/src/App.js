@@ -4,14 +4,14 @@ import Header from './components/Header';
 import Forbidden from './components/Forbidden';
 import Error from './components/Error';
 import NotFound from './components/NotFound';
-import Courses from './components/Courses';
-import UserSignIn from './components/UserSignIn';
-import UserSignUp from './components/UserSignUp';
-import CourseDetail from './components/CourseDetail';
-import CreateCourse from './components/CreateCourse';
-import UpdateCourse from './components/UpdateCourse';
+import Courses from './components/courses/Courses';
+import UserSignIn from './components/users/UserSignIn';
+import UserSignUp from './components/users/UserSignUp';
+import CourseDetail from './components/courses/CourseDetail';
+import CreateCourse from './components/courses/CreateCourse';
+import UpdateCourse from './components/courses/UpdateCourse';
 import PrivateRoute from './PrivateRoute';
-import UserSignOut from './components/UserSignOut';
+import UserSignOut from './components/users/UserSignOut';
 import withContext from './Context';
 
 const App = () => {

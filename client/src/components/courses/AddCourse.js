@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddCourse = props => {
+const AddCourse = () => {
   return (
     <div className="grid-33">
       <a className="course--module course--add--module" href="/courses/create">

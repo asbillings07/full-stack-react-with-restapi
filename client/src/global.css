@@ -754,11 +754,11 @@ input:focus {
 
 /* styles the validation errors */
 .validation--errors--label {
-  color: #7c689b;
+  color: #0069c0;
   font-size: 28px;
 }
 .validation-errors ul {
-  color: #7c689b;
+  color: red;
   padding: 15px 0 40px 10px;
 }
 

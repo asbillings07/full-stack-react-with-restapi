@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CourseForm from './CourseForm';
 import axios from 'axios';
-import config from '../config';
+import config from '../../config';
 
 export default class UpdateCourse extends Component {
   state = {
