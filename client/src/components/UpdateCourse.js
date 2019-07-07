@@ -16,7 +16,7 @@ export default class UpdateCourse extends Component {
   componentDidMount() {
     this.getData();
   }
-
+  // function that hits the REST API and updates state with current information
   getData = async () => {
     const { id } = this.props.match.params;
     const { authedUser } = this.props.context;
@@ -35,6 +35,7 @@ export default class UpdateCourse extends Component {
         userId: course.userId,
       });
     }
+    // checking if authed user. If not kicks to forbidden route.
     if (authedUser.id === this.state.userId) {
     } else {
       this.props.history.push('/forbidden');
@@ -54,7 +55,7 @@ export default class UpdateCourse extends Component {
     return (
       <div className="bounds course--detail">
         <h1>Update Course</h1>
-
+        {/* Componenet Form that renders input and textarea elements */}
         <CourseForm
           cancel={this.cancel}
           errors={errors}
@@ -139,38 +140,29 @@ export default class UpdateCourse extends Component {
       };
     });
   };
-
+  // function that checks if they are authed user then allows them to update course.
   submit = () => {
     const { authedUser, data } = this.props.context;
     const { context } = this.props;
 
-    const {
-      title,
-      userId,
-      description,
-      estimatedTime,
-      materialsNeeded,
-    } = this.state;
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
     const info = { title, description, estimatedTime, materialsNeeded };
     const { id } = this.props.match.params;
-    if (authedUser.id === userId) {
-      data
-        .updateCourse(authedUser.emailAddress, context.password, info, id)
-        .then(errors => {
-          if (errors.length) {
-            this.setState({ errors });
-          } else {
-            alert('Course Updated Successfully');
-            this.props.history.push(`/courses/${id}`);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.props.history.push('/error');
-        });
-    } else {
-      this.props.history.push('/forbidden');
-    }
+
+    data
+      .updateCourse(authedUser.emailAddress, context.password, info, id)
+      .then(errors => {
+        if (errors.length) {
+          this.setState({ errors });
+        } else {
+          alert('Course Updated Successfully');
+          this.props.history.push(`/courses/${id}`);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.props.history.push('/error');
+      });
   };
 
   cancel = () => {

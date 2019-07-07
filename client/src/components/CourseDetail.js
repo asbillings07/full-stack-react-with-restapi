@@ -29,13 +29,25 @@ export default class CourseDetail extends Component {
       this.setState({ course: course.data[0] });
     }
   };
+  // function that confirms if user wants to delete course
+  confirmDelete = () => {
+    const deleteIt = window.confirm(
+      'Careful...Are you sure you want to delete this course? There is no going back.'
+    );
+    if (deleteIt) {
+      this.deleteCourse();
+    } else {
+      console.log('Whew! that was close!');
+    }
+  };
 
   deleteCourse = () => {
     const { id } = this.props.match.params;
     const { authedUser } = this.props.context;
     const { context } = this.props;
-    if (this.state.course.userId === authedUser.id) {
-      // confirm if user wants to perform delete action
+    const { userId } = this.state.course;
+
+    if (userId === authedUser.id) {
       axios
         .delete(`${config.apiBaseUrl}/courses/${id}`, {
           auth: {
@@ -90,7 +102,7 @@ export default class CourseDetail extends Component {
                 {authedUser && authedUser.id === course.userId ? (
                   <button
                     className="button"
-                    onClick={() => this.deleteCourse()}
+                    onClick={() => this.confirmDelete()}
                   >
                     Delete Course
                   </button>
