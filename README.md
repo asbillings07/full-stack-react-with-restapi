@@ -1,3 +1,36 @@
+# Full Stack React App With REST API
+
+## About This Project
+
+Welcome to the Student Courses App. You can browse avaliable courses from our collection. If you would like add your own courses, you can sign up for an account. You can even update and delete courses that you create. This site pulls information from a Node/Express REST API backend.
+
+You can view this site live at the link here: (will place here soon)
+
+## Languages Used
+
+- JavaScript
+- CSS
+- HTML
+
+## Front-End
+
+- React
+  - axios
+  - React-router-dom
+  - Styled-components
+  - react-markdown
+  - js-cookie to maintain to persist users autenticated state
+
+## Back-End
+
+- Node
+  - Express
+  - Express-validator
+  - bcryptjs
+  - basic-auth
+  - Sequelize
+  - Sqlite
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
