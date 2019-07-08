@@ -1,5 +1,7 @@
+// imports REST API URL
 import config from './config';
 
+// creates class for fetch API and methods to use with context
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, creds = null) {
     const url = config.apiBaseUrl + path;
@@ -22,7 +24,7 @@ export default class Data {
 
     return fetch(url, options);
   }
-
+  // gets users
   async getUser(email, password) {
     const response = await this.api(`/users`, 'GET', null, true, {
       email,
@@ -36,7 +38,7 @@ export default class Data {
       throw new Error();
     }
   }
-
+  // creates users
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
@@ -49,7 +51,7 @@ export default class Data {
       throw new Error();
     }
   }
-
+  // creates course
   async createCourse(email, password, info) {
     const response = await this.api(`/courses`, 'POST', info, true, {
       email,
@@ -70,6 +72,7 @@ export default class Data {
       console.log('Something else went wrong');
     }
   }
+  // deletes course
   async deleteCourse(email, password, id) {
     const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {
       email,
@@ -88,7 +91,7 @@ export default class Data {
         });
     }
   }
-
+  // updates course
   async updateCourse(email, password, info, id) {
     const response = await this.api(`/courses/${id}`, 'PUT', info, true, {
       email,

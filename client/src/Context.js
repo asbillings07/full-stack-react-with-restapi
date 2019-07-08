@@ -5,7 +5,7 @@ const Context = React.createContext();
 
 export class Provider extends Component {
   data = new Data();
-
+  // storing cookies in state
   state = {
     authedUser: Cookies.getJSON('authedUser') || null,
     password: Cookies.get('password'),
