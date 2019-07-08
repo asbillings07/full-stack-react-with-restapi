@@ -2,7 +2,9 @@
 
 ## About This Project
 
-Welcome to the Student Courses App. You can browse avaliable courses from our collection. If you would like add your own courses, you can sign up for an account. You can even update and delete courses that you create. This site pulls information from a Node/Express REST API backend.
+Welcome to the Student Courses App. Users can interact with the database by retrieving a list of courses, viewing detail for a specific course, as well as creating, updating and deleting courses in the database.
+
+In addition, users can create an account and sign in to create, update or delete courses they own.
 
 You can view this site live at the link here: (will place here soon)
 
@@ -30,6 +32,22 @@ You can view this site live at the link here: (will place here soon)
   - basic-auth
   - Sequelize
   - Sqlite
+
+## Motivation and Lessons learned
+
+- Motivation:
+
+  - This project was created as the final project in the Treehouse TechDegree program.
+
+- Lessons Learned
+  - Using JavaScript and JSX to build out the components for your application in a modular fashion
+  - Using React Router to set up routes
+  - Using the Fetch API and Axios to fetch data from my REST API I created.
+  - Allow users to sign up and use basic authentication to support users signing in.
+  - REST API design
+  - Node.js, and Express to create API routes
+  - Sequelize ORM for data modeling, validation, and persistence
+  - Using Postman for testing and exploring my REST API
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
