@@ -30,6 +30,7 @@ You can view this site live at the link here: (will place here soon)
   - Express-validator
   - bcryptjs
   - basic-auth
+  - SQL
   - Sequelize
   - Sqlite
 

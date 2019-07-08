@@ -46,27 +46,17 @@ export default class CourseDetail extends Component {
   deleteCourse = () => {
     const { id } = this.props.match.params;
     const { authedUser } = this.props.context;
+    const { data } = this.props.context;
     const { context } = this.props;
 
-    axios
-      .delete(`${config.apiBaseUrl}/courses/${id}`, {
-        auth: {
-          username: authedUser.emailAddress,
-          password: context.password,
-        },
-      })
-      .then(res => {
-        if (res.status === 204) {
-          this.setState({
-            course: '',
-            message: 'Course Deleted Successfully',
-          });
-          this.props.history.push(`/`);
-          alert('Course deleted Successfully');
-        } else if (res.status === 401 || res.status === 403) {
-          this.setState({
-            message: res.error.message,
-          });
+    data
+      .deleteCourse(authedUser.emailAddress, context.password, id)
+      .then(errors => {
+        if (errors.length) {
+          this.setState({ message: errors });
+        } else {
+          alert('Course Deleted Successfully');
+          this.props.history.push('/');
         }
       });
   };
