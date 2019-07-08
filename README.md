@@ -52,9 +52,15 @@ You can view this site live at the link here: (will place here soon)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Available Scripts and Project Use
 
-In the project directory, you can run:
+In the API directory you can run:
+
+### `npm start`
+
+Runs the REST API on [http://localhost:5000](http://localhost:5000)
+
+In the Client directory, you can run:
 
 ### `npm start`
 
