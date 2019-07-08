@@ -9,6 +9,8 @@ export default class UpdateCourse extends Component {
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
+    firstName: '',
+    lastName: '',
     userId: '',
     errors: [],
   };
@@ -34,6 +36,8 @@ export default class UpdateCourse extends Component {
         estimatedTime: course.estimatedTime,
         materialsNeeded: course.materialsNeeded,
         userId: course.userId,
+        firstName: course.user.firstName,
+        lastName: course.user.lastName,
       });
     }
     // checking if authed user. If not kicks to forbidden route.
@@ -49,7 +53,8 @@ export default class UpdateCourse extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      userId,
+      firstName,
+      lastName,
       errors,
     } = this.state;
 
@@ -77,7 +82,7 @@ export default class UpdateCourse extends Component {
                     value={title}
                     onChange={this.change}
                   />
-                  <p>By Author {userId}</p>
+                  <p>By Author: {`${firstName} ${lastName}`}</p>
                 </div>
                 <div className="course--description">
                   <div>

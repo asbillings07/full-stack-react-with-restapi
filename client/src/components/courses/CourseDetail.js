@@ -6,6 +6,8 @@ import config from '../../config';
 
 export default class CourseDetail extends Component {
   state = {
+    firstName: '',
+    lastName: '',
     course: [],
     message: '',
   };
@@ -23,7 +25,11 @@ export default class CourseDetail extends Component {
         console.log(err);
       });
     if (course) {
-      this.setState({ course: course.data[0] });
+      this.setState({
+        course: course.data[0],
+        firstName: course.data[0].user.firstName,
+        lastName: course.data[0].user.lastName,
+      });
     }
   };
   // function that confirms if user wants to delete course
@@ -66,7 +72,7 @@ export default class CourseDetail extends Component {
   };
 
   render() {
-    const { course } = this.state;
+    const { course, firstName, lastName } = this.state;
     const { authedUser } = this.props.context;
     const pMarkdown = `${course.description}`;
     const liMarkdown = `${course.materialsNeeded}`;
@@ -77,6 +83,7 @@ export default class CourseDetail extends Component {
             <div className="grid-100">
               <span>
                 {/* The authenticated user's ID matches that of the user who owns the course. */}
+
                 {authedUser && authedUser.id === course.userId ? (
                   <Link className="button" to={`/courses/${course.id}/update`}>
                     Update Course
@@ -107,7 +114,7 @@ export default class CourseDetail extends Component {
             <div className="course--header">
               <h4 className="course--label">Course</h4>
               <h3 className="course--title">{course.title}</h3>
-              <p>By Author ID: {course.userId} </p>
+              <p>By Author: {`${firstName} ${lastName}`} </p>
             </div>
             <div className="course--description">
               <ReactMarkdown source={pMarkdown} />
