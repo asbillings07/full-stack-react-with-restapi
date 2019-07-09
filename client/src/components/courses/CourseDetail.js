@@ -18,18 +18,22 @@ export default class CourseDetail extends Component {
   // function pulls only the requested course from REST API
   getCourses = async () => {
     const { id } = this.props.match.params;
-    const course = await axios
-      .get(`${config.apiBaseUrl}/courses/${id}`)
-      .catch(err => {
-        this.props.history.push('/notfound');
-        console.log(err);
-      });
-    if (course) {
-      this.setState({
-        course: course.data[0],
-        firstName: course.data[0].user.firstName,
-        lastName: course.data[0].user.lastName,
-      });
+    try {
+      const data = await axios.get(`${config.apiBaseUrl}/courses/${id}`);
+
+      if (data) {
+        const course = data.data[0];
+        this.setState({
+          course,
+          firstName: course.user.firstName,
+          lastName: course.user.lastName,
+        });
+      } else {
+        throw Error();
+      }
+    } catch (err) {
+      console.log(err);
+      this.props.history.push('/notfound');
     }
   };
   // function that confirms if user wants to delete course

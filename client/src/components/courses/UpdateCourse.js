@@ -22,29 +22,33 @@ export default class UpdateCourse extends Component {
   getData = async () => {
     const { id } = this.props.match.params;
     const { authedUser } = this.props.context;
-    const data = await axios
-      .get(`${config.apiBaseUrl}/courses/${id}`)
-      .catch(err => {
-        console.log(err);
-        this.props.history.push('/notfound');
-      });
-    if (data) {
-      const course = data.data[0];
-      this.setState({
-        title: course.title,
-        description: course.description,
-        estimatedTime: course.estimatedTime,
-        materialsNeeded: course.materialsNeeded,
-        userId: course.userId,
-        firstName: course.user.firstName,
-        lastName: course.user.lastName,
-      });
+
+    try {
+      const data = await axios.get(`${config.apiBaseUrl}/courses/${id}`);
+      if (data) {
+        const course = data.data[0];
+        this.setState({
+          title: course.title,
+          description: course.description,
+          estimatedTime: course.estimatedTime,
+          materialsNeeded: course.materialsNeeded,
+          userId: course.userId,
+          firstName: course.user.firstName,
+          lastName: course.user.lastName,
+        });
+        if (authedUser.id === this.state.userId) {
+        } else {
+          this.props.history.push('/forbidden');
+        }
+      } else {
+        throw Error();
+      }
+    } catch (err) {
+      console.log(err);
+      this.props.history.push('/notfound');
     }
+
     // checking if authed user. If not kicks to forbidden route.
-    if (authedUser.id === this.state.userId) {
-    } else {
-      this.props.history.push('/forbidden');
-    }
   };
 
   render() {
