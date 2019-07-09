@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import Forbidden from './components/Forbidden';
-import Error from './components/Error';
+import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
 import Courses from './components/courses/Courses';
 import UserSignIn from './components/users/UserSignIn';
@@ -41,7 +41,7 @@ const App = () => {
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
         <Route path="/forbidden" component={Forbidden} />
-        <Route path="/error" component={Error} />
+        <Route path="/error" component={UnhandledError} />
         <Route component={NotFound} />
       </Switch>
     </Router>

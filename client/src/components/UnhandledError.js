@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Error = () => {
+const UnhandledError = () => {
   return (
     <Container>
       <div className="bounds">
@@ -54,4 +54,4 @@ const Heading = styled.h1`
   color: red;
 `;
 
-export default Error;
+export default UnhandledError;

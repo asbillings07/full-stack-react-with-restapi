@@ -172,6 +172,7 @@ export default class UpdateCourse extends Component {
   };
 
   cancel = () => {
-    this.props.history.push('/');
+    const { id } = this.props.match.params;
+    this.props.history.push(`/courses/${id}`);
   };
 }
