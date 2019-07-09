@@ -36,6 +36,7 @@ export default class UpdateCourse extends Component {
           firstName: course.user.firstName,
           lastName: course.user.lastName,
         });
+        // checking if authed user if they happen to try to navigate to this page. If they are not authed it kicks to forbidden route.
         if (authedUser.id === this.state.userId) {
         } else {
           this.props.history.push('/forbidden');
@@ -47,8 +48,6 @@ export default class UpdateCourse extends Component {
       console.log(err);
       this.props.history.push('/notfound');
     }
-
-    // checking if authed user. If not kicks to forbidden route.
   };
 
   render() {

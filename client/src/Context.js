@@ -69,25 +69,3 @@ export default function withContext(Component) {
     );
   };
 }
-// Fixes
-/*
-*import of api url*
-I had to slightly fix this to get your app to run; mainly because of some invalid paths and string casing.
-Make sure the path of your config file is correct in every file that you import this.
-There were a quite a few files, but I think I only had to correct one of the paths.
-Also, the file name is 'Config.js', which means that you should be importing with the exact casing of the filename.
-E.g.: `import './Config'`
---------------------------------------------
-*Needs*:
-*1.) Stateful Components*
-Your `UpdateCourse` components 'Cancel' button does not redirect the user back to course detail screen, but to the home page, the list of courses.
-
-*Exceeds attempted*:
-*1.) Stateful Class Components*:
- a.) For `CourseDetail`, this component is not redirecting to the 'not found' page if I navigate to a non-existent course, such as `http://localhost:3000/courses/123456`
-
- b.) For `UpdateCourse`, the same is  happening here.
-If I navigate to a non-existent course to update, such as http://localhost:3000/courses/123456/update; the `UpdateCourse` component renders.
-
-
-*/
