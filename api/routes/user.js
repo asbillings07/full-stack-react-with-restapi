@@ -5,7 +5,6 @@ const router = express.Router();
 const { User } = require('../models');
 const { validationResult } = require('express-validator');
 const bcryptjs = require('bcryptjs');
-const cors = require('cors');
 
 // middleware error handler
 
@@ -22,7 +21,7 @@ function asyncHandler(cb) {
 // User Routes
 //GET /api/users 200 - Returns the currently authenticated user
 
-router.get('/users', cors(), authenticateUser, (req, res, next) => {
+router.get('/users', authenticateUser, (req, res, next) => {
   const user = req.currentUser;
 
   res.status(200).json({
@@ -36,7 +35,7 @@ router.get('/users', cors(), authenticateUser, (req, res, next) => {
 //POST /api/users 201 - Creates a user, sets the Location header to "/", and returns no content
 router.post(
   '/users',
-  cors(),
+
   validationChain,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
