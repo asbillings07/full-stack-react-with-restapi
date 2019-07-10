@@ -35,7 +35,6 @@ router.get('/users', authenticateUser, (req, res, next) => {
 //POST /api/users 201 - Creates a user, sets the Location header to "/", and returns no content
 router.post(
   '/users',
-
   validationChain,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
