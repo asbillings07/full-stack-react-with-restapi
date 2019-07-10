@@ -6,7 +6,7 @@ Welcome to the Student Courses App. Users can interact with the database by retr
 
 In addition, users can create an account and sign in to create, update or delete courses they own.
 
-You can view this site live at the link here: (will place here soon)
+You can view this site live at the link here: [Full Stack Courses App ](https://courses-app.netlify.com/)
 
 ## Languages Used
 
