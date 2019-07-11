@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { Course, User } = require('../models');
 const { authenticateUser } = require('./authenticateUser');
-const { check, validationResult } = require('express-validator');
-
+const { courseValidationChain } = require('./validationChain');
+const {} = require('../services');
 // middleware error handler
 function asyncHandler(cb) {
   return async (req, res, next) => {
@@ -18,26 +18,33 @@ function asyncHandler(cb) {
     }
   };
 }
-const valdationMiddleWare = async (req, res, next) => {
-  const errors = validationResult(req);
+// business logic
+const getUserCourses = () =>
+  Course.findAll({
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      },
+    ],
+    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+  });
 
-  if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(err => err.msg);
-    res.status(400).json({ errors: errorMessages });
-  } else {
-    next();
-  }
-};
-// validate course information
-const courseValidationChain = [
-  check('title')
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please provide a Course Title'),
-  check('description')
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please provide a Course Description'),
-  valdationMiddleWare,
-];
+const getCourseid = id =>
+  Course.findAll({
+    where: {
+      id,
+    },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      },
+    ],
+    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+  });
 
 // Course Routes
 
@@ -46,16 +53,7 @@ router.get(
   '/courses',
 
   asyncHandler(async (req, res, next) => {
-    const courses = await Course.findAll({
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-        },
-      ],
-      attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-    });
+    const courses = await getUserCourses();
     if (courses) {
       res.status(200).json(courses);
     } else {
@@ -75,20 +73,7 @@ router.get(
     const id = +req.params.id;
 
     if (id) {
-      const course = await Course.findAll({
-        where: {
-          id,
-        },
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-          },
-        ],
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-      });
-
+      const course = await getCourseid(id);
       res.status(200).json(course);
     } else {
       res.status(404).json({
