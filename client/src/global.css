@@ -1,4 +1,8 @@
 /* line 7, ../sass/reset.sass */
+#root .grid {
+  width: 33.3%;
+}
+
 a,
 abbr,
 acronym,
@@ -765,4 +769,20 @@ input:focus {
 /* reduce bottom margin on the course description textarea element */
 .course--description textarea {
   margin-bottom: 20px;
+}
+
+/* phones */
+@media (max-device-width: 767px) {
+  #root .grid {
+    width: 100%;
+    display: flex;
+  }
+}
+
+/* pads */
+@media (min-device-width: 768px) and (max-device-width: 1024px) {
+  #root .grid {
+    width: 50%;
+    display: flex;
+  }
 }

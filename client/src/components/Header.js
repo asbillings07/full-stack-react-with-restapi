@@ -7,7 +7,7 @@ const Header = ({ context }) => {
     <div className="header">
       <div className="bounds">
         <Logo>
-          CourseShare <Span>An Online Learning Community</Span>{' '}
+          CourseShare // <Span>An Online Learning Community</Span>{' '}
         </Logo>
         <nav>
           {authUser ? (

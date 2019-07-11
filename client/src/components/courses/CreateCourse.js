@@ -108,7 +108,7 @@ export default class CreateCourse extends Component {
       };
     });
   };
-
+  // creates a course if the user is Authed
   submit = () => {
     const { authedUser, data } = this.props.context;
     const { context } = this.props;
@@ -131,7 +131,7 @@ export default class CreateCourse extends Component {
         this.props.history.push('/error');
       });
   };
-
+  // sends back to main page
   cancel = () => {
     this.props.history.push('/');
   };
