@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { Course, User } = require('../models');
+const {
+  deleteCourse,
+  updateCourse,
+  authUser,
+  createCourse,
+  getCourseid,
+  getUserCourses,
+} = require('../services');
 const { authenticateUser } = require('./authenticateUser');
 const { courseValidationChain } = require('./validationChain');
-const {} = require('../services');
 // middleware error handler
 function asyncHandler(cb) {
   return async (req, res, next) => {
@@ -18,33 +24,6 @@ function asyncHandler(cb) {
     }
   };
 }
-// business logic
-const getUserCourses = () =>
-  Course.findAll({
-    include: [
-      {
-        model: User,
-        as: 'user',
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-      },
-    ],
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-  });
-
-const getCourseid = id =>
-  Course.findAll({
-    where: {
-      id,
-    },
-    include: [
-      {
-        model: User,
-        as: 'user',
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-      },
-    ],
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-  });
 
 // Course Routes
 
@@ -68,10 +47,8 @@ router.get(
 //GET /courses/:id 200 - Returns a the course (including the user that owns the course) for the provided course ID
 router.get(
   '/courses/:id',
-
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-
     if (id) {
       const course = await getCourseid(id);
       res.status(200).json(course);
@@ -87,19 +64,12 @@ router.get(
 //POST /courses 201 - Creates a course, sets the Location header to the URI for the course, and returns no content
 router.post(
   '/courses',
-
   authenticateUser,
   courseValidationChain,
   asyncHandler(async (req, res, next) => {
     const user = req.currentUser;
     const course = req.body;
-    const courses = await Course.create({
-      userId: user.id,
-      title: course.title,
-      description: course.description,
-      estimatedTime: course.estimatedTime,
-      materialsNeeded: course.materialsNeeded,
-    });
+    const courses = await createCourse(user, course);
     res
       .location(`/courses/:${courses.id}`)
       .status(201)
@@ -116,15 +86,9 @@ router.put(
     const user = req.currentUser;
     const course = req.body;
     const id = +req.params.id;
-    const verifyUser = await Course.findOne({ where: { id } });
+    const verifyUser = await authUser(id);
     if (verifyUser.userId === user.id) {
-      const courses = await Course.findByPk(id);
-      courses.update({
-        title: course.title,
-        description: course.description,
-        estimatedTime: course.estimatedTime,
-        materialsNeeded: course.materialsNeeded,
-      });
+      updateCourse(course);
       res.status(204).end();
     } else {
       res.status(403).json({
@@ -144,11 +108,9 @@ router.delete(
   asyncHandler(async (req, res, next) => {
     const user = req.currentUser;
     const id = +req.params.id;
-    const verifyUser = await Course.findOne({ where: { id } });
+    const verifyUser = await authUser(id);
     if (verifyUser.userId === user.id) {
-      const course = await Course.findByPk(id);
-
-      course.destroy();
+      deleteCourse();
       res.status(204).end();
     } else {
       res.status(403).json({
