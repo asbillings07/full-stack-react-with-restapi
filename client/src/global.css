@@ -775,7 +775,6 @@ input:focus {
 @media (max-device-width: 767px) {
   #root .grid {
     width: 100%;
-    display: flex;
   }
 }
 
@@ -783,6 +782,5 @@ input:focus {
 @media (min-device-width: 768px) and (max-device-width: 1024px) {
   #root .grid {
     width: 50%;
-    display: flex;
   }
 }
