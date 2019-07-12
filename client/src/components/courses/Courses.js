@@ -58,11 +58,11 @@ const FlexText = styled.h3`
   color: #fff;
   /* phones */
   @media (max-device-width: 767px) {
-    font-size: 10px;
+    font-size: 16px;
   }
 
   /* pads */
   @media (min-device-width: 768px) and (max-device-width: 1024px) {
-    font-size: 12px;
+    font-size: 16px;
   }
 `;
