@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AddCourse from './AddCourse';
+import Spinner from '../Spinner';
 import config from '../../config';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { Link } from 'react-router-dom';
 export default class Courses extends Component {
   state = {
     courses: [],
+    loading: true,
   };
 
   componentDidMount() {
@@ -15,7 +17,6 @@ export default class Courses extends Component {
   }
   // function pulls all courses from REST API
   getAllCourses = async () => {
-    this.setState({ loading: true });
     const courses = await axios
       .get(`${config.apiBaseUrl}/courses`)
       .catch(err => {
@@ -23,7 +24,7 @@ export default class Courses extends Component {
         this.props.history.push('/error');
       });
     if (courses) {
-      this.setState({ courses: courses.data });
+      this.setState({ courses: courses.data, loading: false });
     }
   };
   // maps through all of the courses and displays them on the "/" page
@@ -44,12 +45,16 @@ export default class Courses extends Component {
   };
 
   render() {
-    return (
-      <React.Fragment>
-        {this.showCourse()}
-        <AddCourse />
-      </React.Fragment>
-    );
+    if (this.state.loading) {
+      return <Spinner size="4x" spinning="spinning" />;
+    } else {
+      return (
+        <React.Fragment>
+          {this.showCourse()}
+          <AddCourse />
+        </React.Fragment>
+      );
+    }
   }
 }
 
