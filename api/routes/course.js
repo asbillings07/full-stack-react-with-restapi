@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {
-  deleteCourse,
-  updateCourse,
-  authUser,
-  createCourse,
-  getCourseid,
-  getUserCourses,
-} = require('../services');
+const { Course } = require('../models');
+const { User } = require('../models');
 const { authenticateUser } = require('./authenticateUser');
-const { courseValidationChain } = require('./validationChain');
+const { check, validationResult } = require('express-validator');
+
 // middleware error handler
 function asyncHandler(cb) {
   return async (req, res, next) => {
@@ -24,6 +19,26 @@ function asyncHandler(cb) {
     }
   };
 }
+const valdationMiddleWare = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(err => err.msg);
+    res.status(400).json({ errors: errorMessages });
+  } else {
+    next();
+  }
+};
+// validate course information
+const courseValidationChain = [
+  check('title')
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('Please provide a Course Title'),
+  check('description')
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('Please provide a Course Description'),
+  valdationMiddleWare,
+];
 
 // Course Routes
 
@@ -32,7 +47,16 @@ router.get(
   '/courses',
 
   asyncHandler(async (req, res, next) => {
-    const courses = await getUserCourses();
+    const courses = await Course.findAll({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        },
+      ],
+      attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+    });
     if (courses) {
       res.status(200).json(courses);
     } else {
@@ -47,10 +71,25 @@ router.get(
 //GET /courses/:id 200 - Returns a the course (including the user that owns the course) for the provided course ID
 router.get(
   '/courses/:id',
+
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
+
     if (id) {
-      const course = await getCourseid(id);
+      const course = await Course.findAll({
+        where: {
+          id,
+        },
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+          },
+        ],
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      });
+
       res.status(200).json(course);
     } else {
       res.status(404).json({
@@ -64,12 +103,19 @@ router.get(
 //POST /courses 201 - Creates a course, sets the Location header to the URI for the course, and returns no content
 router.post(
   '/courses',
+
   authenticateUser,
   courseValidationChain,
   asyncHandler(async (req, res, next) => {
     const user = req.currentUser;
     const course = req.body;
-    const courses = await createCourse(user, course);
+    const courses = await Course.create({
+      userId: user.id,
+      title: course.title,
+      description: course.description,
+      estimatedTime: course.estimatedTime,
+      materialsNeeded: course.materialsNeeded,
+    });
     res
       .location(`/courses/:${courses.id}`)
       .status(201)
@@ -86,9 +132,15 @@ router.put(
     const user = req.currentUser;
     const course = req.body;
     const id = +req.params.id;
-    const verifyUser = await authUser(id);
+    const verifyUser = await Course.findOne({ where: { id } });
     if (verifyUser.userId === user.id) {
-      updateCourse(course);
+      const courses = await Course.findByPk(id);
+      courses.update({
+        title: course.title,
+        description: course.description,
+        estimatedTime: course.estimatedTime,
+        materialsNeeded: course.materialsNeeded,
+      });
       res.status(204).end();
     } else {
       res.status(403).json({
@@ -108,9 +160,11 @@ router.delete(
   asyncHandler(async (req, res, next) => {
     const user = req.currentUser;
     const id = +req.params.id;
-    const verifyUser = await authUser(id);
+    const verifyUser = await Course.findOne({ where: { id } });
     if (verifyUser.userId === user.id) {
-      deleteCourse();
+      const course = await Course.findByPk(id);
+
+      course.destroy();
       res.status(204).end();
     } else {
       res.status(403).json({
