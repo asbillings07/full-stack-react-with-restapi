@@ -1,58 +1,58 @@
 // load modules
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
+const express = require('express')
+const morgan = require('morgan')
+const cors = require('cors')
 
 // routes
-const userRoute = require('./routes/user');
-const courseRoute = require('./routes/course');
+const userRoute = require('./routes/user')
+const courseRoute = require('./routes/course')
 
 // variable to enable global error logging
 const enableGlobalErrorLogging =
-  process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
+  process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true'
 
 // create the Express app
-const app = express();
+const app = express()
 
 // setup morgan which gives us http request logging
-app.use(morgan('dev'));
+app.use(morgan('dev'))
 // parse incoming JSON from req
-app.use(express.json());
-app.use(cors());
+app.use(express.json())
+app.use(cors())
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to the REST API project!',
-  });
-});
+    message: 'Welcome to the REST API project!'
+  })
+})
 
 // api routes
-app.use('/api', userRoute);
-app.use('/api', courseRoute);
+app.use('/api', userRoute)
+app.use('/api', courseRoute)
 
 // send 404 if no other route matched
 app.use((req, res) => {
   res.status(404).json({
-    message: 'Route Not Found',
-  });
-});
+    message: 'Route Not Found'
+  })
+})
 
 // setup a global error handler
 app.use((err, req, res, next) => {
   if (enableGlobalErrorLogging) {
-    console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
+    console.error(`Global error handler: ${JSON.stringify(err.stack)}`)
   }
 
   res.status(err.status || 500).json({
     error: {
-      message: err.message,
-    },
-  });
-});
+      message: err.message
+    }
+  })
+})
 
 // set our port
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000
 // start listening on our port
 app.listen(port, () => {
-  console.log(`Express server is listening on port ${port}`);
-});
+  console.log(`Express server is listening on port ${port}`)
+})
