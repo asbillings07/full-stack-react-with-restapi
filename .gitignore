@@ -4,6 +4,7 @@
 node_modules
 /.pnp
 .pnp.js
+fsjstd-restapi.db
 
 
 
@@ -27,3 +28,4 @@ yarn-error.log*
 markup
 mockups
 todo
+api/fsjstd-restapi.db
