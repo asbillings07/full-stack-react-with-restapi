@@ -6,7 +6,7 @@ const router = express.Router()
 
 // middleware error handler
 
-function asyncHandler (cb) {
+function asyncHandler(cb) {
   return async (req, res, next) => {
     try {
       await cb(req, res, next)

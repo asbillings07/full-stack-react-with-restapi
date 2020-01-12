@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "seed": "cross-env DB_ENABLE_LOGGING=true node './seed'"
+    "seed": "cross-env DB_ENABLE_LOGGING=true node './seed'",
+    "start:lambda": "netlify-lambda serve functions"
   },
   "keywords": [],
   "author": "",
@@ -16,13 +17,15 @@
   "dependencies": {
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "express-validator": "^6.1.0",
     "morgan": "^1.9.0",
+    "netlify-lambda": "^1.6.3",
+    "pg-hstore": "^2.3.3",
     "promise.prototype.finally": "^3.1.0",
     "sequelize": "^5.9.0",
-    "cors": "^2.8.5",
     "sequelize-cli": "^5.5.0",
     "sqlite3": "^4.0.2"
   }
