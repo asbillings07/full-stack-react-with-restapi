@@ -15,7 +15,7 @@
     "react-fontawesome": "^1.6.1",
     "react-markdown": "^4.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "styled-components": "^4.3.2"
   },
   "scripts": {
